@@ -36,3 +36,25 @@ img {
   width: 600px;
   height: 300px;
 }
+
+.keyboard__row {
+  display: flex;
+}
+
+.keyboard__key {
+  position: relative;
+  padding: 30px;
+  background-color: rgb(99, 54, 99);
+  cursor: pointer;
+}
+
+.keyboard__symbol_secondary {
+  position: absolute;
+  top: 25%;
+  left: 25%;
+}
+
+.keyboard__symbol_primary {
+  display: block;
+  padding-top: 5px;
+}
