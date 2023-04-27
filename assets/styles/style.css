@@ -38,8 +38,9 @@ img {
   outline: none;
 }
 
-.keyboard__row {
+.virt-area__keyboard {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .keyboard__key {
