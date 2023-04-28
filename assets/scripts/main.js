@@ -1,3 +1,5 @@
+let exceptions = ["Backspace", "Tab", "Delete", "CapsLock", "Enter", "ShiftLeft", "ArrowUp", "ShiftRight", "ControlLeft", "AltLeft", "Space", "AltRight", "ControlRight", "ArrowLeft", "ArrowDown", "ArrowRight"];
+
 let enKeyboard = {
   Backquote: ["`", "~"],
   Digit1: ["1", "!"],
@@ -55,7 +57,74 @@ let enKeyboard = {
   ArrowUp: ["▲"],
   ShiftRight: ["Shift"],
   ControlLeft: ["Ctrl"],
-  MetaLeft: ["Win"],
+  ChangeLang: ["RU"],
+  AltLeft: ["Alt"],
+  Space: ["Space"],
+  AltRight: ["Alt"],
+  ControlRight: ["Ctrl"],
+  ArrowLeft: ["◄"],
+  ArrowDown: ["▼"],
+  ArrowRight: ["►"],
+};
+
+let ruKeyboard = {
+  Backquote: ["Ё"],
+  Digit1: ["1", "!"],
+  Digit2: ["2", "\""],
+  Digit3: ["3", "№"],
+  Digit4: ["4", ";"],
+  Digit5: ["5", "%"],
+  Digit6: ["6", ":"],
+  Digit7: ["7", "?"],
+  Digit8: ["8", "*"],
+  Digit9: ["9", "("],
+  Digit0: ["0", ")"],
+  Minus: ["-", "_"],
+  Equal: ["=", "+"],
+  Backspace: ["Backspace"],
+  Tab: ["Tab"],
+  KeyQ: ["Й"],
+  KeyW: ["Ц"],
+  KeyE: ["У"],
+  KeyR: ["К"],
+  KeyT: ["Е"],
+  KeyY: ["Н"],
+  KeyU: ["Г"],
+  KeyI: ["Ш"],
+  KeyO: ["Щ"],
+  KeyP: ["З"],
+  BracketLeft: ["Х"],
+  BracketRight: ["Ъ"],
+  Backslash: ["\\", "/"],
+  Delete: ["Del"],
+  CapsLock: ["Caps"],
+  KeyA: ["Ф"],
+  KeyS: ["Ы"],
+  KeyD: ["В"],
+  KeyF: ["А"],
+  KeyG: ["П"],
+  KeyH: ["Р"],
+  KeyJ: ["О"],
+  KeyK: ["Л"],
+  KeyL: ["Д"],
+  Semicolon: ["Ж"],
+  Quote: ["Э"],
+  Enter: ["Enter"],
+  ShiftLeft: ["Shift"],
+  KeyZ: ["Я"],
+  KeyX: ["Ч"],
+  KeyC: ["С"],
+  KeyV: ["М"],
+  KeyB: ["И"],
+  KeyN: ["Т"],
+  KeyM: ["Ь"],
+  Comma: ["Б"],
+  Period: ["Ю"],
+  Slash: [".", ","],
+  ArrowUp: ["▲"],
+  ShiftRight: ["Shift"],
+  ControlLeft: ["Ctrl"],
+  ChangeLang: ["EN"],
   AltLeft: ["Alt"],
   Space: ["Space"],
   AltRight: ["Alt"],
@@ -117,7 +186,6 @@ let Keyboard = {
 
     switch (keyCode) {
       case "ControlLeft":
-      case "MetaLeft":
       case "AltLeft":
       case "AltRight":
       case "ControlRight":
@@ -153,6 +221,12 @@ let Keyboard = {
           this.isShiftOn = !this.isShiftOn;
         });
         break;
+      case "ChangeLang":
+        keyboardKey.addEventListener("click", () => {
+          let primaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_primary').textContent;
+          this.changeLang(primaryKey);
+        })
+        break;
       case "Space":
         keyboardKey.addEventListener("click", () => {
           this.insertInActivePos(" ");
@@ -180,6 +254,8 @@ let Keyboard = {
         break;
       default:
         keyboardKey.addEventListener("click", (e) => {
+          let primaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_primary').textContent;
+          let secondaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_secondary').textContent; 
           let keySymbol = primaryKey.toLowerCase();
           if (this.isCapsOn) {
             // if caps is on then key change to upperCase and check for having a second key
@@ -271,6 +347,29 @@ let Keyboard = {
       virtMonitor.setSelectionRange(selectStart, selectStart);
     }
   },
+
+  changeLang(lang) {
+    let keyboardKeys;
+    let keyboardSymbols;
+    let keyboardKey;
+    if (lang === "RU") {
+      keyboardKeys = Object.keys(ruKeyboard);
+      keyboardSymbols = Object.values(ruKeyboard);
+    }
+    if (lang === "EN") {
+      keyboardKeys = Object.keys(enKeyboard);
+      keyboardSymbols = Object.values(enKeyboard);
+    }
+    keyboardKeys.forEach((keyCode, i) => {
+      if (exceptions.indexOf(keyCode) !== -1) {
+        return;
+      }
+      let [primaryKey, secondaryKey] = keyboardSymbols[i];
+      keyboardKey = document.getElementById(`key-${keyCode.toLowerCase()}`);
+      keyboardKey.querySelector('.keyboard__symbol_primary').textContent = primaryKey;
+      keyboardKey.querySelector('.keyboard__symbol_secondary').textContent = secondaryKey;
+    });
+  }
 };
 
 Keyboard.init();
