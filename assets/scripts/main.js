@@ -261,9 +261,9 @@ let Keyboard = {
             // if caps is on then key change to upperCase and check for having a second key
             keySymbol = primaryKey.toUpperCase();
           }
-          if (this.isShiftOn) {
+          if (this.isShiftOn || e.shiftKey) {
             // if shift is on then looking on case, if lower need to make to upper and check for having a second key else make to lower
-            if (primaryKey.toLowerCase() == keySymbol) {
+            if (primaryKey.toLowerCase() === keySymbol) {
               if (secondaryKey) keySymbol = secondaryKey;
               if (!secondaryKey) keySymbol = primaryKey.toUpperCase();
               this.isShiftOn = e.shiftKey || false;
@@ -334,15 +334,15 @@ let Keyboard = {
     let virtMonitor = this.virtMonitor;
     let selectStart = virtMonitor.selectionStart;
     virtMonitor.focus();
-    if (keyCode == "ArrowUp") {
+    if (keyCode === "ArrowUp") {
     }
-    if (keyCode == "ArrowRight") {
+    if (keyCode === "ArrowRight") {
       selectStart++;
       virtMonitor.setSelectionRange(selectStart, selectStart);
     }
-    if (keyCode == "ArrowDown") {
+    if (keyCode === "ArrowDown") {
     }
-    if (keyCode == "ArrowLeft") {
+    if (keyCode === "ArrowLeft") {
       selectStart--;
       virtMonitor.setSelectionRange(selectStart, selectStart);
     }
@@ -373,3 +373,35 @@ let Keyboard = {
 };
 
 Keyboard.init();
+
+document.addEventListener("keydown", (e) => {
+  let virtMonitor = Keyboard.virtMonitor;
+  let idPhysKey = "key-" + e.code.toLowerCase();
+  if (document.getElementById(idPhysKey)) {
+    // come in if physKey exist in virtual keyboard
+    if (e.code === "CapsLock" && !e.repeat) {
+      document.getElementById(idPhysKey).click();
+    }
+    else if (e.code === "ShiftLeft" || e.code === "ShiftRight" && !e.repeat) {
+      Keyboard.isShiftOn = true;
+    }
+    // if pressed key is phys shift and pressed virt button so need to set isShiftOn true and check property shiftKey
+    //call click event for Shift and CapsLock only once
+    else if (e.code === "AltLeft" && e.shiftKey && !e.repeat) {
+      document.getElementById('key-changelang').click();
+    }
+    else {
+      e.preventDefault();
+      if (e.shiftKey) Keyboard.isShiftOn = true;
+      // if press phys key with shift so need to set isShiftOn true and check property isShifton
+      if (e.shiftKey && e.altKey) return;
+      document.getElementById(idPhysKey).click();
+    }
+  }
+}); 
+
+document.addEventListener("keyup", (e) => {
+  if (e.code === "ShiftLeft" || e.code === "ShiftRight") {
+    Keyboard.isShiftOn = false; // if it stops pressing so need to make false
+  }
+});
