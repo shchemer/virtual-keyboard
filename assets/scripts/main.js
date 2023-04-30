@@ -206,14 +206,12 @@ let Keyboard = {
     symbolPrimary.innerHTML = primaryKey;
     symbolSecondary.innerHTML = !secondaryKey ? "" : secondaryKey;
 
-    keyboardKey.addEventListener("click", () => {
-      if (!keyboardKey.classList.contains("keyboard__key_active_phys")) {
-        keyboardKey.classList.add("keyboard__key_active_virt");
+    keyboardKey.addEventListener("mousedown", () => {
+        keyboardKey.classList.add("keyboard__key_active");
         setTimeout(
-          () => keyboardKey.classList.remove("keyboard__key_active_virt"),
+          () => keyboardKey.classList.remove("keyboard__key_active"),
           250
         );
-      }
     });
 
     switch (keyCode) {
@@ -382,7 +380,7 @@ let Keyboard = {
         if (!e.repeat) {
           document
             .getElementById(idPhysKey)
-            .classList.add("keyboard__key_active_phys");
+            .classList.add("keyboard__key_active");
         }
         // come in if physKey exist in virtual keyboard
         if (e.code === "CapsLock" && !e.repeat) {
@@ -414,7 +412,7 @@ let Keyboard = {
       if (document.getElementById(idPhysKey)) {
         document
           .getElementById(idPhysKey)
-          .classList.remove("keyboard__key_active_phys");
+          .classList.remove("keyboard__key_active");
         if (e.code === "ShiftLeft" || e.code === "ShiftRight") {
           Keyboard.isShiftOn = false; // if it stops pressing so need to make false
         }
