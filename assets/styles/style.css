@@ -51,8 +51,7 @@ img {
   transition: background-color 0.1s ease-in-out;
 }
 
-.keyboard__key_active_phys,
-.keyboard__key_active_virt {
+.keyboard__key_active {
   background-color: rgb(83, 45, 83);
 }
 
