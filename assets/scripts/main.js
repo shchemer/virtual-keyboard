@@ -202,7 +202,7 @@ let Keyboard = {
         break;
       case "Tab":
         keyboardKey.addEventListener("click", () => {
-          this.insertInActivePos("	");
+          this.insertInActivePos("\t");
         });
         break;
       case "CapsLock":
@@ -230,26 +230,6 @@ let Keyboard = {
       case "Space":
         keyboardKey.addEventListener("click", () => {
           this.insertInActivePos(" ");
-        });
-        break;
-      case "ArrowUp":
-        keyboardKey.addEventListener("click", () => {
-          this.changeActivePos(keyCode);
-        });
-        break;
-      case "ArrowRight":
-        keyboardKey.addEventListener("click", () => {
-          this.changeActivePos(keyCode);
-        });
-        break;
-      case "ArrowDown":
-        keyboardKey.addEventListener("click", () => {
-          this.changeActivePos(keyCode);
-        });
-        break;
-      case "ArrowLeft":
-        keyboardKey.addEventListener("click", () => {
-          this.changeActivePos(keyCode);
         });
         break;
       default:
@@ -326,24 +306,6 @@ let Keyboard = {
         virtMonitor.value.slice(0, selectStart) +
         virtMonitor.value.slice(selectEnd); // insert existing part before selection + insert rest part after selection
       virtMonitor.focus();
-      virtMonitor.setSelectionRange(selectStart, selectStart);
-    }
-  },
-
-  changeActivePos(keyCode) {
-    let virtMonitor = this.virtMonitor;
-    let selectStart = virtMonitor.selectionStart;
-    virtMonitor.focus();
-    if (keyCode === "ArrowUp") {
-    }
-    if (keyCode === "ArrowRight") {
-      selectStart++;
-      virtMonitor.setSelectionRange(selectStart, selectStart);
-    }
-    if (keyCode === "ArrowDown") {
-    }
-    if (keyCode === "ArrowLeft") {
-      selectStart--;
       virtMonitor.setSelectionRange(selectStart, selectStart);
     }
   },
