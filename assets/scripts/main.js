@@ -154,7 +154,7 @@ let Keyboard = {
 
     document.body.append(virtArea);
     virtArea.append(virtMonitor, virtKeyboard);
-
+    
     this.makeKeyboard(enKeyboard);
   },
 
@@ -183,6 +183,13 @@ let Keyboard = {
 
     symbolPrimary.innerHTML = primaryKey;
     symbolSecondary.innerHTML = !secondaryKey ? "" : secondaryKey;
+
+    keyboardKey.addEventListener("click", () => {
+      if (!keyboardKey.classList.contains('keyboard__key_active_phys')) {
+        keyboardKey.classList.add("keyboard__key_active_virt");
+        setTimeout(() => keyboardKey.classList.remove("keyboard__key_active_virt"), 250);
+      }
+    })
 
     switch (keyCode) {
       case "ControlLeft":
@@ -235,7 +242,7 @@ let Keyboard = {
       default:
         keyboardKey.addEventListener("click", (e) => {
           let primaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_primary').textContent;
-          let secondaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_secondary').textContent; 
+          let secondaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_secondary').textContent;
           let keySymbol = primaryKey.toLowerCase();
           if (this.isCapsOn) {
             // if caps is on then key change to upperCase and check for having a second key
@@ -331,39 +338,55 @@ let Keyboard = {
       keyboardKey.querySelector('.keyboard__symbol_primary').textContent = primaryKey;
       keyboardKey.querySelector('.keyboard__symbol_secondary').textContent = secondaryKey;
     });
-  }
+  },
+
+  setPhysListeners() {
+    document.addEventListener("keydown", (e) => {
+      let idPhysKey = "key-" + e.code.toLowerCase();
+      if (document.getElementById(idPhysKey)) {
+        if (!e.repeat) {
+          document
+            .getElementById(idPhysKey)
+            .classList.add("keyboard__key_active_phys");
+        }
+        // come in if physKey exist in virtual keyboard
+        if (e.code === "CapsLock" && !e.repeat) {
+          document.getElementById(idPhysKey).click();
+        } else if (
+          e.code === "ShiftLeft" ||
+          (e.code === "ShiftRight" && !e.repeat)
+        ) {
+          Keyboard.isShiftOn = true;
+        }
+        // if pressed key is phys shift and pressed virt button so need to set isShiftOn true and check property shiftKey
+        //call click event for Shift and CapsLock only once
+        else if (e.code === "AltLeft" && e.shiftKey && !e.repeat) {
+          document.getElementById("key-changelang").click();
+        } else if (e.ctrlKey) {
+          return;
+        } else {
+          e.preventDefault();
+          if (e.shiftKey) Keyboard.isShiftOn = true;
+          // if press phys key with shift so need to set isShiftOn true and check property isShifton
+          if (e.shiftKey && e.altKey) return;
+          document.getElementById(idPhysKey).click();
+        }
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      let idPhysKey = "key-" + e.code.toLowerCase();
+      if (document.getElementById(idPhysKey)) {
+        document
+          .getElementById(idPhysKey)
+          .classList.remove("keyboard__key_active_phys");
+        if (e.code === "ShiftLeft" || e.code === "ShiftRight") {
+          Keyboard.isShiftOn = false; // if it stops pressing so need to make false
+        }
+      }
+    });
+  },
 };
 
 Keyboard.init();
-
-document.addEventListener("keydown", (e) => {
-  let virtMonitor = Keyboard.virtMonitor;
-  let idPhysKey = "key-" + e.code.toLowerCase();
-  if (document.getElementById(idPhysKey)) {
-    // come in if physKey exist in virtual keyboard
-    if (e.code === "CapsLock" && !e.repeat) {
-      document.getElementById(idPhysKey).click();
-    }
-    else if (e.code === "ShiftLeft" || e.code === "ShiftRight" && !e.repeat) {
-      Keyboard.isShiftOn = true;
-    }
-    // if pressed key is phys shift and pressed virt button so need to set isShiftOn true and check property shiftKey
-    //call click event for Shift and CapsLock only once
-    else if (e.code === "AltLeft" && e.shiftKey && !e.repeat) {
-      document.getElementById('key-changelang').click();
-    }
-    else {
-      e.preventDefault();
-      if (e.shiftKey) Keyboard.isShiftOn = true;
-      // if press phys key with shift so need to set isShiftOn true and check property isShifton
-      if (e.shiftKey && e.altKey) return;
-      document.getElementById(idPhysKey).click();
-    }
-  }
-}); 
-
-document.addEventListener("keyup", (e) => {
-  if (e.code === "ShiftLeft" || e.code === "ShiftRight") {
-    Keyboard.isShiftOn = false; // if it stops pressing so need to make false
-  }
-});
+Keyboard.setPhysListeners();
