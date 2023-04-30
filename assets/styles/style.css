@@ -48,6 +48,12 @@ img {
   padding: 30px;
   background-color: rgb(99, 54, 99);
   cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.keyboard__key_active_phys,
+.keyboard__key_active_virt {
+  background-color: rgb(83, 45, 83);
 }
 
 .keyboard__symbol_secondary {
