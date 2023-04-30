@@ -1,4 +1,25 @@
-let exceptions = ["Backspace", "Tab", "Delete", "CapsLock", "Enter", "ShiftLeft", "ArrowUp", "ShiftRight", "ControlLeft", "AltLeft", "Space", "AltRight", "ControlRight", "ArrowLeft", "ArrowDown", "ArrowRight"];
+if (!localStorage.getItem("lang")) {
+  localStorage.setItem("lang", "en");
+}
+
+let exceptions = [
+  "Backspace",
+  "Tab",
+  "Delete",
+  "CapsLock",
+  "Enter",
+  "ShiftLeft",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "AltLeft",
+  "Space",
+  "AltRight",
+  "ControlRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+];
 
 let enKeyboard = {
   Backquote: ["`", "~"],
@@ -70,7 +91,7 @@ let enKeyboard = {
 let ruKeyboard = {
   Backquote: ["Ё"],
   Digit1: ["1", "!"],
-  Digit2: ["2", "\""],
+  Digit2: ["2", '"'],
   Digit3: ["3", "№"],
   Digit4: ["4", ";"],
   Digit5: ["5", "%"],
@@ -154,8 +175,9 @@ let Keyboard = {
 
     document.body.append(virtArea);
     virtArea.append(virtMonitor, virtKeyboard);
-    
-    this.makeKeyboard(enKeyboard);
+
+    if (localStorage.getItem("lang") === "en") this.makeKeyboard(enKeyboard);
+    if (localStorage.getItem("lang") === "ru") this.makeKeyboard(ruKeyboard);
   },
 
   makeKeyboard(layout) {
@@ -185,11 +207,14 @@ let Keyboard = {
     symbolSecondary.innerHTML = !secondaryKey ? "" : secondaryKey;
 
     keyboardKey.addEventListener("click", () => {
-      if (!keyboardKey.classList.contains('keyboard__key_active_phys')) {
+      if (!keyboardKey.classList.contains("keyboard__key_active_phys")) {
         keyboardKey.classList.add("keyboard__key_active_virt");
-        setTimeout(() => keyboardKey.classList.remove("keyboard__key_active_virt"), 250);
+        setTimeout(
+          () => keyboardKey.classList.remove("keyboard__key_active_virt"),
+          250
+        );
       }
-    })
+    });
 
     switch (keyCode) {
       case "ControlLeft":
@@ -230,9 +255,11 @@ let Keyboard = {
         break;
       case "ChangeLang":
         keyboardKey.addEventListener("click", () => {
-          let primaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_primary').textContent;
+          let primaryKey = document
+            .getElementById(`key-${keyCode.toLowerCase()}`)
+            .querySelector(".keyboard__symbol_primary").textContent;
           this.changeLang(primaryKey);
-        })
+        });
         break;
       case "Space":
         keyboardKey.addEventListener("click", () => {
@@ -241,8 +268,12 @@ let Keyboard = {
         break;
       default:
         keyboardKey.addEventListener("click", (e) => {
-          let primaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_primary').textContent;
-          let secondaryKey = document.getElementById(`key-${keyCode.toLowerCase()}`).querySelector('.keyboard__symbol_secondary').textContent;
+          let primaryKey = document
+            .getElementById(`key-${keyCode.toLowerCase()}`)
+            .querySelector(".keyboard__symbol_primary").textContent;
+          let secondaryKey = document
+            .getElementById(`key-${keyCode.toLowerCase()}`)
+            .querySelector(".keyboard__symbol_secondary").textContent;
           let keySymbol = primaryKey.toLowerCase();
           if (this.isCapsOn) {
             // if caps is on then key change to upperCase and check for having a second key
@@ -324,10 +355,12 @@ let Keyboard = {
     if (lang === "RU") {
       keyboardKeys = Object.keys(ruKeyboard);
       keyboardSymbols = Object.values(ruKeyboard);
+      localStorage.setItem("lang", lang.toLowerCase());
     }
     if (lang === "EN") {
       keyboardKeys = Object.keys(enKeyboard);
       keyboardSymbols = Object.values(enKeyboard);
+      localStorage.setItem("lang", lang.toLowerCase());
     }
     keyboardKeys.forEach((keyCode, i) => {
       if (exceptions.indexOf(keyCode) !== -1) {
@@ -335,8 +368,10 @@ let Keyboard = {
       }
       let [primaryKey, secondaryKey] = keyboardSymbols[i];
       keyboardKey = document.getElementById(`key-${keyCode.toLowerCase()}`);
-      keyboardKey.querySelector('.keyboard__symbol_primary').textContent = primaryKey;
-      keyboardKey.querySelector('.keyboard__symbol_secondary').textContent = secondaryKey;
+      keyboardKey.querySelector(".keyboard__symbol_primary").textContent =
+        primaryKey;
+      keyboardKey.querySelector(".keyboard__symbol_secondary").textContent =
+        secondaryKey;
     });
   },
 
