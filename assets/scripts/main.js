@@ -236,8 +236,12 @@ const Keyboard = {
         });
         break;
       case 'CapsLock': {
+        const indicator = document.createElement('span');
+        indicator.className = 'capslock-indicator';
+        keyboardKey.append(indicator);
         keyboardKey.addEventListener('click', () => {
           this.isCapsOn = !this.isCapsOn;
+          indicator.classList.toggle('capslock-indicator_active');
         });
         break;
       }
@@ -399,3 +403,17 @@ const Keyboard = {
 
 Keyboard.init();
 Keyboard.setPhysListeners();
+
+function info() {
+  const langInfo = document.createElement('span');
+  langInfo.className = 'virt-area__info';
+  document.querySelector('.virt-area').append(langInfo);
+  langInfo.textContent = '?';
+
+  langInfo.addEventListener('click', () => {
+    // eslint-disable-next-line no-alert
+    alert('To change language press shift + alt \nThis keyboard was made on Windows');
+  });
+}
+
+info();
