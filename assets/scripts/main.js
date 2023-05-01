@@ -163,6 +163,7 @@ const Keyboard = {
 
   init() {
     const virtArea = document.createElement('div');
+    const bgImage = document.createElement('div');
     const virtMonitor = document.createElement('textarea');
     const virtKeyboard = document.createElement('div');
 
@@ -170,11 +171,12 @@ const Keyboard = {
     this.virtKeyboard = virtKeyboard;
 
     virtArea.className = 'virt-area';
+    bgImage.className = 'virt-area__bg-image';
     virtMonitor.className = 'virt-area__monitor';
     virtKeyboard.className = 'virt-area__keyboard';
 
     document.body.append(virtArea);
-    virtArea.append(virtMonitor, virtKeyboard);
+    virtArea.append(bgImage, virtMonitor, virtKeyboard);
 
     if (localStorage.getItem('lang') === 'en') this.makeKeyboard(enKeyboard);
     if (localStorage.getItem('lang') === 'ru') this.makeKeyboard(ruKeyboard);
