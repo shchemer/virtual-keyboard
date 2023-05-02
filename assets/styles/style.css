@@ -1,0 +1,166 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+.virt-area {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: #d3e0f7;
+  position: relative;
+  overflow: hidden;
+}
+
+.virt-area__bg-image {
+  position: absolute;
+  left: -10%;
+  top: 10%;
+  width: 120%;
+  height: 100%;
+  background-image: url(../images/whales.jpg);
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
+
+.virt-area__monitor {
+  width: 600px;
+  height: 300px;
+  outline: none;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #e3edfc;
+  border-radius: 20px;
+  font-size: 18px;
+  color: #6b7992;
+  box-shadow: -1px -1px 5px rgba(255, 255, 255, 1),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    2px 2px 5px rgba(0, 0, 0, 0.15);
+  resize: none;
+  z-index: 5;
+}
+
+.virt-area__keyboard {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 1100px;
+  gap: 10px;
+  background-color: transparent;
+  z-index: 5;
+}
+
+.keyboard__key {
+  position: relative;
+  padding: 20px 25px;
+  width: 63px;
+  background-color: #e3edfc;
+  color: #6b7992;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: -1px -1px 5px rgba(255, 255, 255, 1),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    2px 2px 5px rgba(0, 0, 0, 0.15);
+  font-size: 17px;
+  user-select: none;
+}
+
+#key-backspace {
+  width: 148px;
+}
+
+#key-capslock,
+#key-shiftleft {
+  width: 154px;
+}
+
+#key-tab,
+#key-enter,
+#key-shiftright,
+#key-controlleft,
+#key-controlright {
+  flex-grow: 1;
+}
+
+#key-space {
+  flex-grow: 10;
+}
+
+.keyboard__key_active {
+  transform: scale(0.8);
+}
+
+.keyboard__symbol_secondary {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
+
+.keyboard__symbol_primary {
+  display: block;
+  padding-left: 2px;
+  padding-top: 6px;
+}
+
+.capslock-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #6b7992;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: all 0.5s ease-in-out;
+  box-shadow: none;
+}
+
+.capslock-indicator_active {
+  background-color: #9cb5de;
+  border-color: #9cb5de;
+  box-shadow: 0px 0px 5px 2px #9cb5de;
+}
+
+.virt-area__info {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #6b7992;
+  background-color: #e3edfc;
+  padding: 15px 20px;
+  border-radius: 50%;
+  box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    2px 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  user-select: none;
+}
