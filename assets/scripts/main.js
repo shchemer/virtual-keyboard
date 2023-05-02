@@ -416,7 +416,7 @@ function info() {
 
   langInfo.addEventListener('click', () => {
     // eslint-disable-next-line no-alert
-    alert('To change language press shift + alt \nThis keyboard was made on Windows');
+    alert('To change language press shift + alt or alt + shift \nThis keyboard was made on Windows');
   });
 }
 
