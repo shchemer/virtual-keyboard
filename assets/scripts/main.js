@@ -191,7 +191,7 @@ const Keyboard = {
   },
 
   createKeyboardKey(keyCode, symbols) {
-    const [primaryKey, secondaryKey] = symbols;
+    let [primaryKey, secondaryKey] = symbols;
 
     const keyboardKey = document.createElement('div');
     const symbolPrimary = document.createElement('span');
@@ -271,19 +271,19 @@ const Keyboard = {
         break;
       default:
         keyboardKey.addEventListener('click', (e) => {
-          const primarySymbol = keyboardKey.querySelector('.keyboard__symbol_primary').textContent;
-          const secondarySymbol = keyboardKey.querySelector('.keyboard__symbol_secondary').textContent;
-          let keySymbol = primarySymbol.toLowerCase();
+          primaryKey = symbolPrimary.textContent;
+          secondaryKey = symbolSecondary.textContent;
+          let keySymbol = primaryKey.toLowerCase();
           if (this.isCapsOn) {
-            keySymbol = primarySymbol.toUpperCase();
+            keySymbol = primaryKey.toUpperCase();
           }
           if (this.isShiftOn || e.shiftKey) {
-            if (primarySymbol.toLowerCase() === keySymbol) {
-              if (secondarySymbol) keySymbol = secondarySymbol;
-              if (!secondarySymbol) keySymbol = primarySymbol.toUpperCase();
+            if (primaryKey.toLowerCase() === keySymbol) {
+              if (secondaryKey) keySymbol = secondaryKey;
+              if (!secondaryKey) keySymbol = primaryKey.toUpperCase();
               this.isShiftOn = e.shiftKey || false;
             } else {
-              keySymbol = primarySymbol.toLowerCase();
+              keySymbol = primaryKey.toLowerCase();
               this.isShiftOn = e.shiftKey || false;
             }
           }
