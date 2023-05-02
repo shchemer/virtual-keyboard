@@ -271,17 +271,19 @@ const Keyboard = {
         break;
       default:
         keyboardKey.addEventListener('click', (e) => {
-          let keySymbol = primaryKey.toLowerCase();
+          const primarySymbol = keyboardKey.querySelector('.keyboard__symbol_primary').textContent;
+          const secondarySymbol = keyboardKey.querySelector('.keyboard__symbol_secondary').textContent;
+          let keySymbol = primarySymbol.toLowerCase();
           if (this.isCapsOn) {
-            keySymbol = primaryKey.toUpperCase();
+            keySymbol = primarySymbol.toUpperCase();
           }
           if (this.isShiftOn || e.shiftKey) {
-            if (primaryKey.toLowerCase() === keySymbol) {
-              if (secondaryKey) keySymbol = secondaryKey;
-              if (!secondaryKey) keySymbol = primaryKey.toUpperCase();
+            if (primarySymbol.toLowerCase() === keySymbol) {
+              if (secondarySymbol) keySymbol = secondarySymbol;
+              if (!secondarySymbol) keySymbol = primarySymbol.toUpperCase();
               this.isShiftOn = e.shiftKey || false;
             } else {
-              keySymbol = primaryKey.toLowerCase();
+              keySymbol = primarySymbol.toLowerCase();
               this.isShiftOn = e.shiftKey || false;
             }
           }
